@@ -12,23 +12,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Session-based logging system with unique session IDs
 - Comprehensive GitHub repository structure with CI/CD
-- Unit tests using Pester framework
+- Unit tests using Pester framework with cross-version compatibility
+- GitHub Actions CI/CD pipeline with PowerShell validation
 - Multiple Safe Mode detection methods
 - Automatic state recovery across reboots
 - Detailed command output logging with tee-like functionality
 - Manual file system cleanup as fallback method
 - Support for multiple boot configuration methods
+- PSScriptAnalyzer integration for code quality checks
+- VS Code workspace configuration with tasks and debugging
+- Professional attribution and documentation for GitHub publication
+- WhatIf parameter support for safe preview of all destructive actions
+- Comment-based help documentation for Get-Help compatibility
 
 ### Changed
 - Restructured logging to use session folders under `logs/`
 - Improved error handling and recovery mechanisms
 - Enhanced Safe Mode detection with multiple validation methods
 - Better user experience with clear status messages
+- CI/CD workflow made more robust with optional Pester tests
+- Updated .gitignore to include VS Code settings for development
+- All destructive operations now support WhatIf parameter
 
 ### Fixed
 - Safe Mode detection reliability issues
 - Boot configuration setting for Safe Mode transitions
 - Log file organization and session tracking
+- GitHub Actions workflow compatibility issues with different Pester versions
+- PowerShell syntax validation in CI/CD pipeline
+- Cross-platform compatibility for GitHub Actions runners
 
 ## [1.0.0] - 2025-06-30
 
