@@ -103,9 +103,6 @@ jobs:
           Write-Host "Basic tests failed: $($_.Exception.Message)" -ForegroundColor Red
           throw
         }
-        $config.CodeCoverage.OutputPath = "coverage.xml"
-        
-        Invoke-Pester -Configuration $config
         
     - name: Run Pester tests (optional)
       shell: pwsh
