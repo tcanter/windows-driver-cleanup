@@ -50,6 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pester test runner configuration for cross-version compatibility
 - CI/CD pipeline test execution order and error handling
 - Test result XML generation and publishing in CI/CD pipeline
+- Conditional test result publishing when XML files are missing
+- CI/CD workflow artifact upload error handling
 
 ## [1.0.0] - 2025-06-30
 
