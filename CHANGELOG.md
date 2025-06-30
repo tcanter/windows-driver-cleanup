@@ -33,6 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI/CD workflow made more robust with optional Pester tests
 - Updated .gitignore to include VS Code settings for development
 - All destructive operations now support WhatIf parameter
+- PSScriptAnalyzer configuration updated to focus on critical errors only
+- CI/CD pipeline now separates errors from warnings for better feedback
 
 ### Fixed
 - Safe Mode detection reliability issues
@@ -41,6 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions workflow compatibility issues with different Pester versions
 - PowerShell syntax validation in CI/CD pipeline
 - Cross-platform compatibility for GitHub Actions runners
+- PSScriptAnalyzer rule conflicts causing CI/CD failures
+- Code quality checks now properly exclude interactive script patterns
 
 ## [1.0.0] - 2025-06-30
 
