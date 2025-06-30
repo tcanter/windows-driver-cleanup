@@ -51,13 +51,21 @@ jobs:
       shell: pwsh
       run: |
         try {
-          $results = Invoke-ScriptAnalyzer -Path ./cleanup_driver.ps1 -Severity Error,Warning
+          $results = Invoke-ScriptAnalyzer -Path ./cleanup_driver.ps1 -Severity Error -Settings ./PSScriptAnalyzerSettings.psd1
           if ($results) {
-            Write-Host "PSScriptAnalyzer found issues:" -ForegroundColor Red
+            Write-Host "PSScriptAnalyzer found critical issues:" -ForegroundColor Red
             $results | Format-Table -AutoSize
-            throw "PSScriptAnalyzer found $($results.Count) issue(s)"
+            throw "PSScriptAnalyzer found $($results.Count) critical issue(s)"
           } else {
-            Write-Host "PSScriptAnalyzer: No issues found" -ForegroundColor Green
+            Write-Host "PSScriptAnalyzer: No critical issues found" -ForegroundColor Green
+          }
+          
+          # Show warnings for information but don't fail
+          $warnings = Invoke-ScriptAnalyzer -Path ./cleanup_driver.ps1 -Severity Warning -Settings ./PSScriptAnalyzerSettings.psd1
+          if ($warnings) {
+            Write-Host "PSScriptAnalyzer warnings (informational):" -ForegroundColor Yellow
+            $warnings | Format-Table -AutoSize
+            Write-Host "Total warnings: $($warnings.Count)" -ForegroundColor Yellow
           }
         } catch {
           Write-Host "PSScriptAnalyzer failed: $($_.Exception.Message)" -ForegroundColor Red

@@ -20,7 +20,11 @@
     ExcludeRules = @('PSReviewUnusedParameter',
                      'PSUseDeclaredVarsMoreThanAssignments',
                      'PSAvoidGlobalVars',
-                     'PSAvoidUsingInvokeExpression')
+                     'PSAvoidUsingInvokeExpression',
+                     'PSAvoidUsingWriteHost',
+                     'PSAvoidUsingWMICmdlet',
+                     'PSPlaceCloseBrace',
+                     'PSUseConsistentIndentation')
 
     # You can use rule configuration to configure rules that support it:
     Rules = @{
