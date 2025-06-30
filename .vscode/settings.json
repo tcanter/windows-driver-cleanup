@@ -1,0 +1,34 @@
+{
+    "powershell.integratedConsole.showOnStartup": false,
+    "powershell.developer.editorServicesLogLevel": "Warning",
+    "powershell.scriptAnalysis.enable": true,
+    "powershell.scriptAnalysis.settingsPath": "${workspaceFolder}\\PSScriptAnalyzerSettings.psd1",
+    "files.encoding": "utf8",
+    "files.eol": "\r\n",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "files.associations": {
+        "*.ps1": "powershell",
+        "*.psm1": "powershell",
+        "*.psd1": "powershell"
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "cleanup_driver.ps1": "cleanup_driver.Tests.ps1",
+        "README.md": "CONTRIBUTING.md, LICENSE, CHANGELOG.md, .gitignore",
+        "package.json": "package-lock.json, yarn.lock",
+        "*.ps1": "*.Tests.ps1"
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": "cmd.exe",
+            "icon": "terminal-cmd"
+        }
+    }
+}

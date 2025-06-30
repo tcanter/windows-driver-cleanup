@@ -1,0 +1,41 @@
+{
+  "name": "windows-driver-cleanup-tool",
+  "version": "1.0.0",
+  "description": "A robust PowerShell script for safely removing stubborn Windows drivers that cannot be uninstalled through normal means",
+  "main": "cleanup_driver.ps1",
+  "scripts": {
+    "test": "powershell -ExecutionPolicy Bypass -File .\\tests\\Run-Tests.ps1",
+    "whatif": "powershell -ExecutionPolicy Bypass -File .\\cleanup_driver.ps1 -WhatIf",
+    "help": "powershell -Command \"Get-Help .\\cleanup_driver.ps1 -Full\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tcanter/windows-driver-cleanup.git"
+  },
+  "keywords": [
+    "windows",
+    "drivers",
+    "cleanup",
+    "powershell",
+    "system-administration",
+    "safe-mode",
+    "pnputil",
+    "driver-removal"
+  ],
+  "author": {
+    "name": "Thomas Canter",
+    "email": "tcanter@ojmot.com",
+    "url": "https://linkedin.com/in/thomascanter"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tcanter/windows-driver-cleanup/issues"
+  },
+  "homepage": "https://github.com/tcanter/windows-driver-cleanup#readme",
+  "engines": {
+    "powershell": ">=5.1"
+  },
+  "os": [
+    "win32"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PowerShell: Launch Current File",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${file}",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "PowerShell: Launch Driver Cleanup Script",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}\\cleanup_driver.ps1",
+            "args": [
+                "-DriverInf",
+                "${input:driverInf}",
+                "-WhatIf"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "PowerShell: Launch Driver Cleanup Script (Live)",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}\\cleanup_driver.ps1",
+            "args": [
+                "-DriverInf",
+                "${input:driverInf}"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "PowerShell: Run Tests",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}\\tests\\Run-Tests.ps1",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "PowerShell: Show Script Help",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "Get-Help",
+            "args": [
+                "${workspaceFolder}\\cleanup_driver.ps1",
+                "-Full"
+            ],
+            "cwd": "${workspaceFolder}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "driverInf",
+            "description": "Driver INF file to remove (e.g., oem124.inf)",
+            "default": "oem124.inf",
+            "type": "promptString"
+        }
+    ]
+}

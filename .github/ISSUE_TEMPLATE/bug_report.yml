@@ -1,0 +1,89 @@
+name: Bug Report
+description: Report a bug or issue with the driver cleanup tool
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the information below to help us investigate.
+
+  - type: input
+    id: driver-inf
+    attributes:
+      label: Driver INF Name
+      description: What driver were you trying to remove?
+      placeholder: "e.g., oem124.inf"
+    validations:
+      required: true
+
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System Information
+      description: Please provide your system details
+      placeholder: |
+        - Windows Version: (e.g., Windows 11 22H2)
+        - PowerShell Version: (Get from $PSVersionTable.PSVersion)
+        - Running as Administrator: Yes/No
+        - Safe Mode: Yes/No
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: What steps did you take that led to the bug?
+      placeholder: |
+        1. Ran cleanup_driver.ps1
+        2. Selected option Y for Safe Mode
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-messages
+    attributes:
+      label: Error Messages
+      description: Any error messages you received
+      render: shell
+
+  - type: textarea
+    id: log-files
+    attributes:
+      label: Log Files
+      description: Please attach relevant log files from the session folder
+      placeholder: |
+        Please attach or paste the contents of:
+        - DriverCleanupLog.txt
+        - SafeModeDetailedLog.txt (if applicable)
+        - CommandOutputLog.txt
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have run the script as Administrator
+          required: true
+        - label: I have included log files or error messages
+          required: true

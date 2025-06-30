@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-vscode.powershell",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "github.vscode-github-actions",
+        "ms-vscode.test-adapter-converter",
+        "hbenl.vscode-test-explorer"
+    ]
+}

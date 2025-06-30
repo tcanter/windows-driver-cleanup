@@ -1,0 +1,173 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      shell: pwsh
+      run: |
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+        
+    - name: Install test dependencies
+      shell: pwsh
+      run: |
+        Install-Module -Name Pester -Force -Scope CurrentUser
+        Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+        
+    - name: Run PSScriptAnalyzer
+      shell: pwsh
+      run: |
+        $results = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error,Warning
+        if ($results) {
+          $results | Format-Table -AutoSize
+          throw "PSScriptAnalyzer found issues"
+        }
+        
+    - name: Run Pester tests
+      shell: pwsh
+      run: |
+        $config = New-PesterConfiguration
+        $config.Run.Path = "./tests"
+        $config.TestResult.Enabled = $true
+        $config.TestResult.OutputPath = "TestResults.xml"
+        $config.TestResult.OutputFormat = "NUnitXml"
+        $config.CodeCoverage.Enabled = $true
+        $config.CodeCoverage.Path = "./cleanup_driver.ps1"
+        $config.CodeCoverage.OutputFormat = "JaCoCo"
+        $config.CodeCoverage.OutputPath = "coverage.xml"
+        
+        Invoke-Pester -Configuration $config
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: |
+          TestResults.xml
+          coverage.xml
+          
+    - name: Publish test results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: PowerShell Tests
+        path: TestResults.xml
+        reporter: java-junit
+
+  security-scan:
+    name: Security Scan
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run security scan
+      shell: pwsh
+      run: |
+        # Check for hardcoded secrets or sensitive information
+        $sensitivePatterns = @(
+          "password\s*=",
+          "apikey\s*=",
+          "secret\s*=",
+          "token\s*="
+        )
+        
+        $files = Get-ChildItem -Path . -Include "*.ps1", "*.psm1" -Recurse
+        $violations = @()
+        
+        foreach ($file in $files) {
+          $content = Get-Content $file.FullName -Raw
+          foreach ($pattern in $sensitivePatterns) {
+            if ($content -match $pattern) {
+              $violations += "Potential sensitive information in $($file.Name): $pattern"
+            }
+          }
+        }
+        
+        if ($violations) {
+          $violations | ForEach-Object { Write-Warning $_ }
+          throw "Security violations found"
+        } else {
+          Write-Host "No security violations found" -ForegroundColor Green
+        }
+
+  build:
+    name: Build and Package
+    runs-on: windows-latest
+    needs: [test, security-scan]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Create build artifacts
+      shell: pwsh
+      run: |
+        # Create a release package
+        $version = if ($env:GITHUB_REF -match "refs/tags/v(.*)") { $matches[1] } else { "dev" }
+        $packageName = "windows-driver-cleanup-$version"
+        
+        # Create package directory
+        New-Item -Path $packageName -ItemType Directory -Force
+        
+        # Copy files to package
+        Copy-Item "cleanup_driver.ps1" -Destination $packageName
+        Copy-Item "README.md" -Destination $packageName
+        Copy-Item "LICENSE" -Destination $packageName
+        Copy-Item "CONTRIBUTING.md" -Destination $packageName
+        
+        # Create logs directory
+        New-Item -Path "$packageName/logs" -ItemType Directory -Force
+        
+        # Create ZIP archive
+        Compress-Archive -Path $packageName -DestinationPath "$packageName.zip"
+        
+        # Create checksum
+        $hash = Get-FileHash "$packageName.zip" -Algorithm SHA256
+        $hash.Hash | Out-File "$packageName.zip.sha256"
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-package
+        path: |
+          windows-driver-cleanup-*.zip
+          windows-driver-cleanup-*.zip.sha256
+
+  release:
+    name: Create Release
+    runs-on: windows-latest
+    needs: build
+    if: github.event_name == 'release'
+    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: release-package
+        
+    - name: Upload release assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./windows-driver-cleanup-*.zip
+        asset_name: windows-driver-cleanup.zip
+        asset_content_type: application/zip

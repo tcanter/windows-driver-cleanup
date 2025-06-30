@@ -1,0 +1,102 @@
+# Windows Driver Cleanup Tool - .gitignore
+
+# Log files and session data
+logs/
+*.log
+*.txt
+TestResults.xml
+coverage.xml
+
+# PowerShell specific
+*.ps1xml
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# IDE files (VS Code included for development setup)
+# .vscode/  # Uncomment to exclude VS Code settings
+.vs/
+*.suo
+*.user
+
+# Build artifacts
+dist/
+build/
+*.zip
+*.exe
+*.msi
+
+# Test outputs
+TestResults/
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.local
+
+# Package files
+*.nupkg
+*.snupkg
+
+# Backup files
+*.bak
+*.backup
+*_backup.*
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
