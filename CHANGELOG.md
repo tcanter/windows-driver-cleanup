@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- (Future enhancements will be listed here)
+
+### Changed
+- (Future changes will be listed here)
+
+### Fixed
+- (Future fixes will be listed here)
+
+## [1.0.0] - 2025-06-30
+
+### Added
 - Session-based logging system with unique session IDs
 - Comprehensive GitHub repository structure with CI/CD
 - Unit tests using Pester framework with cross-version compatibility
@@ -24,6 +35,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Professional attribution and documentation for GitHub publication
 - WhatIf parameter support for safe preview of all destructive actions
 - Comment-based help documentation for Get-Help compatibility
+- Initial release of Windows Driver Cleanup Tool
+- Basic driver enumeration and removal functionality
+- Safe Mode support for stubborn drivers
+- PowerShell script for Windows driver cleanup
 
 ### Changed
 - Restructured logging to use session folders under `logs/`
@@ -52,15 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test result XML generation and publishing in CI/CD pipeline
 - Conditional test result publishing when XML files are missing
 - CI/CD workflow artifact upload error handling
-
-## [1.0.0] - 2025-06-30
-
-### Added
-- Initial release of Windows Driver Cleanup Tool
-- Basic driver enumeration and removal functionality
-- Safe Mode support for stubborn drivers
-- Simple logging system
-- PowerShell script for Windows driver cleanup
+- GitHub Actions permissions for test reporter integration
 
 ### Features
 - Remove drivers that can't be uninstalled normally
