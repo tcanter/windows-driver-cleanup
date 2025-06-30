@@ -265,12 +265,29 @@ jobs:
       with:
         name: release-package
         
-    - name: Upload release assets
-      uses: actions/upload-release-asset@v1
+    - name: Find and upload release assets
+      shell: pwsh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./windows-driver-cleanup-*.zip
-        asset_name: windows-driver-cleanup.zip
-        asset_content_type: application/zip
+      run: |
+        # Find the ZIP file
+        $zipFile = Get-ChildItem -Path "." -Name "windows-driver-cleanup-*.zip" | Select-Object -First 1
+        $checksumFile = Get-ChildItem -Path "." -Name "windows-driver-cleanup-*.zip.sha256" | Select-Object -First 1
+        
+        if ($zipFile) {
+          Write-Host "Found ZIP file: $zipFile"
+          
+          # Upload the ZIP file
+          gh release upload ${{ github.event.release.tag_name }} $zipFile --clobber
+          Write-Host "✓ Uploaded $zipFile"
+          
+          if ($checksumFile) {
+            # Upload the checksum file
+            gh release upload ${{ github.event.release.tag_name }} $checksumFile --clobber
+            Write-Host "✓ Uploaded $checksumFile"
+          }
+        } else {
+          Write-Host "❌ No ZIP file found"
+          Get-ChildItem -Path "." | Format-Table Name, Length
+          exit 1
+        }
