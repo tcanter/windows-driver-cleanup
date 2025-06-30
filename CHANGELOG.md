@@ -35,6 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All destructive operations now support WhatIf parameter
 - PSScriptAnalyzer configuration updated to focus on critical errors only
 - CI/CD pipeline now separates errors from warnings for better feedback
+- PSScriptAnalyzer rules tuned for interactive scripts (excluded overly strict formatting rules)
+- Fixed Pester test configuration compatibility across different Pester versions
 
 ### Fixed
 - Safe Mode detection reliability issues
@@ -45,6 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cross-platform compatibility for GitHub Actions runners
 - PSScriptAnalyzer rule conflicts causing CI/CD failures
 - Code quality checks now properly exclude interactive script patterns
+- Pester test runner configuration for cross-version compatibility
+- CI/CD pipeline test execution order and error handling
 
 ## [1.0.0] - 2025-06-30
 
