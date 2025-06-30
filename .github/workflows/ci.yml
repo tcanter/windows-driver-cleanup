@@ -117,6 +117,10 @@ jobs:
             $config = New-PesterConfiguration
             $config.Run.Path = "./tests/cleanup_driver.Tests.ps1"
             $config.Output.Verbosity = "Detailed"
+            $config.TestResult.Enabled = $true
+            $config.TestResult.OutputPath = "TestResults.xml"
+            $config.TestResult.OutputFormat = "JUnitXml"
+            
             $result = Invoke-Pester -Configuration $config
             
             Write-Host "Pester v5 tests completed" -ForegroundColor Green
@@ -126,7 +130,7 @@ jobs:
           } else {
             # Pester v4 fallback
             Write-Host "Using Pester v4 syntax..." -ForegroundColor Yellow
-            $result = Invoke-Pester -Script "./tests/cleanup_driver.Tests.ps1" -PassThru
+            $result = Invoke-Pester -Script "./tests/cleanup_driver.Tests.ps1" -OutputFile "TestResults.xml" -OutputFormat "JUnitXml" -PassThru
             
             if ($result.FailedCount -gt 0) {
               Write-Host "Warning: $($result.FailedCount) Pester test(s) failed" -ForegroundColor Yellow
@@ -137,6 +141,13 @@ jobs:
           Write-Host "This is non-blocking for the build" -ForegroundColor Yellow
         }
         
+        # Debug: Check if test result file was created
+        if (Test-Path "TestResults.xml") {
+          Write-Host "✓ TestResults.xml file created successfully" -ForegroundColor Green
+        } else {
+          Write-Host "⚠ TestResults.xml file was not created" -ForegroundColor Yellow
+        }
+        
     - name: Upload test results
       uses: actions/upload-artifact@v4
       if: always()
@@ -145,10 +156,11 @@ jobs:
         path: |
           TestResults.xml
           coverage.xml
+        if-no-files-found: ignore
           
     - name: Publish test results
       uses: dorny/test-reporter@v1
-      if: always()
+      if: always() && hashFiles('TestResults.xml') != ''
       with:
         name: PowerShell Tests
         path: TestResults.xml

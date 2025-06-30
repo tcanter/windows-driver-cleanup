@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Code quality checks now properly exclude interactive script patterns
 - Pester test runner configuration for cross-version compatibility
 - CI/CD pipeline test execution order and error handling
+- Test result XML generation and publishing in CI/CD pipeline
 
 ## [1.0.0] - 2025-06-30
 
