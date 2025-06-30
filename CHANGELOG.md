@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - (Future changes will be listed here)
 
 ### Fixed
-- (Future fixes will be listed here)
+- GitHub Actions release asset upload handling with improved file detection
+- Release workflow glob pattern issues preventing asset uploads
 
 ## [1.0.0] - 2025-06-30
 
